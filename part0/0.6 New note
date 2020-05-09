@@ -1,0 +1,25 @@
+title 0.6: New note
+
+note over browser:
+when the button on the form is clicked
+browser starts executing js-code
+end note
+
+note over browser:
+creates a new note
+adds it to the notes list
+end note
+
+note over browser:
+renders notes to display
+and sends the new note to the server
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over server:
+server creates a new note object
+and adds it to an array called notes
+end note
+
+server->browser: responds with status code 201 created
