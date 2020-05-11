@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const Total = ({ parts }) => {
-  const sum = parts.reduce((acc, cur) => acc + cur.exercises, 0);
-  return <p>Total of exercises {sum}</p>;
+  const total = parts.reduce((acc, cur) => acc + cur.exercises, 0);
+  return <p>Total of {total} exercises</p>;
 };
 
 const Part = ({ part }) => {
