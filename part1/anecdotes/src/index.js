@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>;
 
-const Anecdote = ({ anecdotes, votes, index, text }) => {
+const Anecdote = ({ anecdote, vote, text }) => {
   return (
     <>
       <h1>{text}</h1>
-      <div>{anecdotes[index]}</div>
-      <div>has {votes[index]} votes</div>
+      <div>{anecdote}</div>
+      <div>has {vote} votes</div>
     </>
   );
 };
@@ -40,10 +40,10 @@ const App = ({ anecdotes }) => {
 
   return (
     <>
-      <Anecdote anecdotes={anecdotes} votes={votes} index={selected} text={'Anecdote of the day'} />
+      <Anecdote anecdote={anecdotes[selected]} vote={votes[selected]} text={'Anecdote of the day'} />
       <Button handleClick={handleVote} text={'vote'} />
       <Button handleClick={handleSelect} text={'next anecdote'} />
-      <Anecdote anecdotes={anecdotes} votes={votes} index={most} text={'Anecdote with most votes'} />
+      <Anecdote anecdote={anecdotes[most]} vote={votes[most]} text={'Anecdote with most votes'} />
     </>
   );
 };
