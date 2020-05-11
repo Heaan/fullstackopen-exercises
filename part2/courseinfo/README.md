@@ -1,1 +1,1 @@
-Solutions of part 1 exercises to this folder
+Solutions of part 2 exercises to this folder
