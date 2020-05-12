@@ -1,4 +1,5 @@
 /.vscode
 
-/part1/courseinfo/node_modules
+node_modules
 
+.env
