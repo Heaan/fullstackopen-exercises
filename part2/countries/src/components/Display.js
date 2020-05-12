@@ -1,32 +1,14 @@
 import React from 'react';
+import Country from './Country';
+import Countries from './Countries';
 
-const Display = ({ countries }) => {
+const Display = ({ countries, handleClick }) => {
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter.</div>;
   }
   if (countries.length === 1) {
-    const { name, capital, population, languages, flag } = countries[0];
-    return (
-      <div>
-        <h1>{name}</h1>
-        <p>capital {capital}</p>
-        <p>population {population}</p>
-        <h2>languages</h2>
-        <ul>
-          {languages.map((language) => (
-            <li key={language.iso639_1}>{language.name}</li>
-          ))}
-        </ul>
-        <img alt={name} src={flag} width={'25%'} />
-      </div>
-    );
+    return <Country country={countries[0]} />;
   }
-  return (
-    <div>
-      {countries.map((country) => (
-        <div key={country.numericCode}>{country.name}</div>
-      ))}
-    </div>
-  );
+  return <Countries countries={countries} handleClick={handleClick} />;
 };
 export default Display;

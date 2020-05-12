@@ -21,6 +21,9 @@ const App = () => {
   const handleFilter = (event) => {
     setFilter(event.target.value);
   };
+  const handleClick = (event) => {
+    setFilter(event.target.name);
+  };
 
   const countriesFilter = countries.filter(
     (country) => country.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1,
@@ -29,7 +32,7 @@ const App = () => {
   return (
     <div>
       <Input handleChange={handleFilter} value={filter} />
-      <Display countries={countriesFilter} />
+      <Display countries={countriesFilter} handleClick={handleClick} />
     </div>
   );
 };
