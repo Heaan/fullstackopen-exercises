@@ -7,6 +7,10 @@ const App = () => {
   const [filter, setFilter] = useState('');
   const [countries, setCountries] = useState([]);
 
+  const countriesFilter = countries.filter(
+    (country) => country.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1,
+  );
+
   useEffect(() => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
@@ -24,10 +28,6 @@ const App = () => {
   const handleClick = (event) => {
     setFilter(event.target.name);
   };
-
-  const countriesFilter = countries.filter(
-    (country) => country.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1,
-  );
 
   return (
     <div>
