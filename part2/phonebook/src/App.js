@@ -4,11 +4,12 @@ import PersonForm from './components/person-form';
 import Persons from './components/persons';
 import personsService from './service/person';
 
-const Notification = ({ message }) => {
+const Notification = ({ messageObj }) => {
+  const { success, message } = messageObj;
   if (message === null) {
     return null;
   }
-  return <div className='success'>{message}</div>;
+  return <div className={success ? 'success message' : 'error message'}>{message}</div>;
 };
 
 const App = () => {
@@ -16,9 +17,11 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState({ success: true, message: null });
+  const [effect, setEffect] = useState(true);
 
   useEffect(() => {
+    // console.log('effect!');
     personsService
       .getAll()
       .then((persons) => {
@@ -27,13 +30,19 @@ const App = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [effect]);
 
   const personsToShow = persons.filter((person) => person.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
   const successDone = (text, name) => {
-    setSuccessMessage(`${text} ${name}`);
+    setSuccessMessage({ success: true, message: `${text} ${name}` });
     setTimeout(() => {
-      setSuccessMessage(null);
+      setSuccessMessage({ success: true, message: null });
+    }, 5000);
+  };
+  const errorDone = (name) => {
+    setSuccessMessage({ success: false, message: `Information of ${name} has already been removed from server` });
+    setTimeout(() => {
+      setSuccessMessage({ success: true, message: null });
     }, 5000);
   };
 
@@ -43,6 +52,7 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
+    // setEffect(!effect);
     const isNameExisted = persons.some((person) => person.name === newName);
     if (!isNameExisted) {
       personsService
@@ -74,7 +84,7 @@ const App = () => {
           setNewNumber('');
         })
         .catch((err) => {
-          console.error(err);
+          errorDone(newName);
         });
       return;
     }
@@ -101,7 +111,7 @@ const App = () => {
           successDone('Deleted', deleName);
         })
         .catch((err) => {
-          console.error(err);
+          errorDone(deleName);
         });
     }
   };
@@ -109,7 +119,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification messageObj={successMessage} />
       <Filter handleChange={handleFilterChange} filter={filter} />
       <h3>Add a new</h3>
       <PersonForm
