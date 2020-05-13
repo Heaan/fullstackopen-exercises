@@ -25,24 +25,39 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
     const person = {
       name: newName,
       number: newNumber,
     };
-    personsService
-      .create(person)
-      .then((newPerson) => {
-        setPersons(persons.concat(newPerson));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    setNewName('');
-    setNewNumber('');
+    const isNameExisted = persons.some((person) => person.name === newName);
+    if (!isNameExisted) {
+      personsService
+        .create(person)
+        .then((newPerson) => {
+          setPersons(persons.concat(newPerson));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      setNewName('');
+      setNewNumber('');
+      return;
+    }
+    const confirmStr = `${newName} is already added to phonebook, replace the old number with a new one?`;
+    if (isNameExisted && window.confirm(confirmStr)) {
+      const id = persons.find((person) => person.name === newName).id;
+      personsService
+        .update(id, person)
+        .then((newPerson) => {
+          setPersons(persons.map((person) => (person.id === id ? newPerson : person)));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      setNewName('');
+      setNewNumber('');
+      return;
+    }
   };
   const handleNameChange = (event) => {
     setNewName(event.target.value);
