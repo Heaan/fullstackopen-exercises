@@ -4,11 +4,19 @@ import PersonForm from './components/person-form';
 import Persons from './components/persons';
 import personsService from './service/person';
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+  return <div className='success'>{message}</div>;
+};
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     personsService
@@ -22,6 +30,12 @@ const App = () => {
   }, []);
 
   const personsToShow = persons.filter((person) => person.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+  const successDone = (text, name) => {
+    setSuccessMessage(`${text} ${name}`);
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,11 +50,14 @@ const App = () => {
         .then((newPerson) => {
           setPersons(persons.concat(newPerson));
         })
+        .then(() => {
+          successDone('Added', newName);
+          setNewName('');
+          setNewNumber('');
+        })
         .catch((err) => {
           console.error(err);
         });
-      setNewName('');
-      setNewNumber('');
       return;
     }
     const confirmStr = `${newName} is already added to phonebook, replace the old number with a new one?`;
@@ -51,11 +68,14 @@ const App = () => {
         .then((newPerson) => {
           setPersons(persons.map((person) => (person.id === id ? newPerson : person)));
         })
+        .then(() => {
+          successDone('Updated', newName);
+          setNewName('');
+          setNewNumber('');
+        })
         .catch((err) => {
           console.error(err);
         });
-      setNewName('');
-      setNewNumber('');
       return;
     }
   };
@@ -77,6 +97,9 @@ const App = () => {
         .then((delePerson) => {
           setPersons(persons.filter((person) => person.id !== id));
         })
+        .then(() => {
+          successDone('Deleted', deleName);
+        })
         .catch((err) => {
           console.error(err);
         });
@@ -86,6 +109,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter handleChange={handleFilterChange} filter={filter} />
       <h3>Add a new</h3>
       <PersonForm
