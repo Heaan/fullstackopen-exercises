@@ -2,8 +2,8 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-  "title":"node and npm",
+  "title":"yarn and npm",
   "author":"Tom",
-  "url":"/blog/node-and-npm.html",
+  "url":"/blog/yarn-and-npm.html",
   "likes":0
 }
