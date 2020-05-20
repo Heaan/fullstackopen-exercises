@@ -4,9 +4,11 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 require('dotenv').config();
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 
@@ -35,12 +37,14 @@ blogSchema.set('toJSON', {
   },
 });
 
+blogSchema.plugin(uniqueValidator);
+
 const Blog = mongoose.model('Blog', blogSchema);
 
 const { MONGO_URL } = process.env;
 console.log('connecting to MongoDB');
 mongoose
-  .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('connected to MongoDB');
   })
@@ -67,10 +71,9 @@ app.get('/api/blogs', (req, res) => {
 app.get('/api/blogs/:id', (req, res, next) => {
   const { id } = req.params;
   Blog.findById(id)
-    .then((blog) => blog.toJSON())
-    .then((foundBlog) => {
-      if (foundBlog) {
-        res.json(foundBlog);
+    .then((blog) => {
+      if (blog) {
+        res.json(blog.toJSON());
       } else {
         res.status(404).end();
       }
@@ -79,14 +82,17 @@ app.get('/api/blogs/:id', (req, res, next) => {
 });
 
 app.put('/api/blogs/:id', (req, res, next) => {
-  const { body } = req;
+  const { likes } = req.body;
   const { id } = req.params;
-  const newBlog = {
-    likes: body.likes,
-  };
-  Blog.findByIdAndUpdate(id, newBlog, { new: true })
-    .then((blog) => blog.toJSON())
-    .then((blog) => res.json(blog))
+
+  Blog.findByIdAndUpdate(id, { likes }, { new: true })
+    .then((blog) => {
+      if (blog) {
+        res.json(blog.toJSON());
+      } else {
+        res.status(404).end();
+      }
+    })
     .catch((err) => next(err));
 });
 
@@ -102,8 +108,7 @@ app.post('/api/blogs', (req, res, next) => {
   const newBlog = new Blog(body);
   newBlog
     .save()
-    .then((blog) => blog.toJSON())
-    .then((blog) => res.status(201).json(blog))
+    .then((blog) => res.status(201).json(blog.toJSON()))
     .catch((err) => next(err));
 });
 
@@ -113,7 +118,7 @@ const unknownEndpoint = (req, res) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err);
+  console.error(err.message);
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
     res.status(400).send({ error: 'malformatted id' });
     return;
