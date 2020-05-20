@@ -15,4 +15,22 @@ const favoriteBlog = (blogs) => {
   return { title, author, likes };
 };
 
-module.exports = { dummy, totalLikes, favoriteBlog };
+const mostBlogs = (blogsList) => {
+  if (blogsList.length === 0) return {};
+  const authorMap = new Map();
+  blogsList.forEach((blog) => {
+    const { author } = blog;
+    if (!authorMap.has(author)) authorMap.set(author, 0);
+    authorMap.set(author, authorMap.get(author) + 1);
+  });
+  const blogs = Math.max(...authorMap.values());
+  const author = [...authorMap].find((item) => item[1] === blogs)[0];
+  return { author, blogs };
+};
+
+module.exports = {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+};
