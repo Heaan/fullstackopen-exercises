@@ -28,9 +28,23 @@ const mostBlogs = (blogsList) => {
   return { author, blogs };
 };
 
+const mostLikes = (blogsList) => {
+  if (blogsList.length === 0) return {};
+  const authorMap = new Map();
+  blogsList.forEach((blog) => {
+    const { author, likes } = blog;
+    if (!authorMap.has(author)) authorMap.set(author, 0);
+    authorMap.set(author, authorMap.get(author) + likes);
+  });
+  const likes = Math.max(...authorMap.values());
+  const author = [...authorMap].find((item) => item[1] === likes)[0];
+  return { author, likes };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };
