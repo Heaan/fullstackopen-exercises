@@ -43,6 +43,10 @@ blogsRouter.delete('/:id', (req, res, next) => {
 
 blogsRouter.post('/', async (req, res) => {
   const { body } = req;
+  if (body.likes === undefined) {
+    body.likes = 0;
+  }
+
   const newBlog = new Blog(body);
   const blog = await newBlog.save();
   res.status(201).json(blog.toJSON());

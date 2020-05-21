@@ -71,6 +71,20 @@ test('a new blog post is created', async () => {
   expect(blog).toEqual(newBlog);
 });
 
+test('missing likes property of the blog default to 0', async () => {
+  const newBlog = {
+    title: 'TDD harms architecture',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+  };
+
+  const res = await api.post('/api/blogs').send(newBlog);
+  const retBlog = res.body;
+
+  expect(retBlog.likes).toBeDefined();
+  expect(retBlog.likes).toBe(0);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
