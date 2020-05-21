@@ -34,11 +34,10 @@ blogsRouter.put('/:id', (req, res, next) => {
     .catch((err) => next(err));
 });
 
-blogsRouter.delete('/:id', (req, res, next) => {
+blogsRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  Blog.findByIdAndRemove(id)
-    .then(() => res.status(204).end())
-    .catch((err) => next(err));
+  await Blog.findByIdAndRemove(id);
+  res.status(204).end();
 });
 
 blogsRouter.post('/', async (req, res) => {
