@@ -37,6 +37,15 @@ test('the correct amount of blogs are returned in the JSON format ', async () =>
   expect(res.body).toHaveLength(initBlogs.length);
 });
 
+test('the unique identifier property of the blogs is named "id", not "_id"', async () => {
+  const blogs = await Blog.find({});
+  const blog = blogs.map((b) => b.toJSON())[0];
+
+  expect(blog.id).toBeDefined();
+  // eslint-disable-next-line no-underscore-dangle
+  expect(blog._id).not.toBeDefined();
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
