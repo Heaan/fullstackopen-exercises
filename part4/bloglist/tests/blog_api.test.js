@@ -85,6 +85,15 @@ test('missing likes property of the blog default to 0', async () => {
   expect(retBlog.likes).toBe(0);
 });
 
+test('the response to creating a blog with missing attributes is 400', async () => {
+  const newBlog = {
+    author: 'Robert C. Martin',
+    likes: 2,
+  };
+
+  await api.post('/api/blogs').send(newBlog).expect(400);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
