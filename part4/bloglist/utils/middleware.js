@@ -22,7 +22,11 @@ const errorHandler = (err, req, res, next) => {
     res.status(400).json({ error: err.message });
     return;
   }
-  if (err.name === 'JsonWebTokenError') {
+  if (
+    err.name === 'JsonWebTokenError'
+    || err.name === 'TokenExpiredError'
+    || err.name === 'NotBeforeError'
+  ) {
     res.status(401).json({ error: err.message });
     return;
   }

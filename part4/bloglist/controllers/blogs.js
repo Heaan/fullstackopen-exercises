@@ -35,6 +35,19 @@ blogsRouter.put('/:id', async (req, res) => {
 
 blogsRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
+
+  const { token } = req;
+  const decoded = jwt.verify(token, config.SECRET);
+
+  const blog = await Blog.findById(id);
+  if (!blog) {
+    res.status(404).end();
+    return;
+  }
+  if (blog.user.toString() !== decoded.id) {
+    res.status(403).json({ error: 'unmatched user id' });
+    return;
+  }
   await Blog.findByIdAndRemove(id);
   res.status(204).end();
 });
@@ -46,9 +59,9 @@ blogsRouter.post('/', async (req, res) => {
   }
   const { token } = req;
   // invalid token: throw the error before assigning `decodedToken`
-  const decodedToken = jwt.verify(token, config.SECRET);
+  const decoded = jwt.verify(token, config.SECRET);
 
-  const user = await User.findById(decodedToken.id);
+  const user = await User.findById(decoded.id);
 
   const newBlog = new Blog({ ...body, user: user._id });
   const blog = await newBlog.save();
