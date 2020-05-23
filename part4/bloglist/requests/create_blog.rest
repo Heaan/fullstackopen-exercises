@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWVjOGY4NzlhNDM2ZDAwYmE0OGYzNTE0IiwiaWF0IjoxNTkwMjM2Mzc2fQ.i7hjth0UK3YHmW44vCoYH8_SBDzc4nP7oR3Pn2_E-3Y
 
 {
   "title":"yarn and npm",

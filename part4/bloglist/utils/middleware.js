@@ -22,7 +22,24 @@ const errorHandler = (err, req, res, next) => {
     res.status(400).json({ error: err.message });
     return;
   }
+  if (err.name === 'JsonWebTokenError') {
+    res.status(401).json({ error: err.message });
+    return;
+  }
   next(err);
 };
 
-module.exports = { requestLogger, unknownEndpoint, errorHandler };
+const tokenExtractor = (req, res, next) => {
+  const auth = req.get('authorization');
+  if (auth && auth.toLowerCase().startsWith('bearer')) {
+    req.token = auth.substring(7);
+  }
+  next();
+};
+
+module.exports = {
+  requestLogger,
+  unknownEndpoint,
+  errorHandler,
+  tokenExtractor,
+};

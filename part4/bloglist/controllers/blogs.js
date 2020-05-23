@@ -1,7 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 const blogsRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const config = require('../utils/config');
 
 blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
@@ -42,8 +44,11 @@ blogsRouter.post('/', async (req, res) => {
   if (body.likes === undefined) {
     body.likes = 0;
   }
+  const { token } = req;
+  // invalid token: throw the error before assigning `decodedToken`
+  const decodedToken = jwt.verify(token, config.SECRET);
 
-  const user = await User.findById(body.userId);
+  const user = await User.findById(decodedToken.id);
 
   const newBlog = new Blog({ ...body, user: user._id });
   const blog = await newBlog.save();
