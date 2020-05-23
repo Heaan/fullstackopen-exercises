@@ -38,13 +38,14 @@ blogsRouter.delete('/:id', async (req, res) => {
 
   const { token } = req;
   const decoded = jwt.verify(token, config.SECRET);
+  const user = await User.findById(decoded.id);
 
   const blog = await Blog.findById(id);
   if (!blog) {
     res.status(404).end();
     return;
   }
-  if (blog.user.toString() !== decoded.id) {
+  if (blog.user.toString() !== user._id.toString()) {
     res.status(403).json({ error: 'unmatched user id' });
     return;
   }
