@@ -1,4 +1,6 @@
+const bcrypt = require('bcrypt');
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const initBlogs = [
   {
@@ -15,9 +17,44 @@ const initBlogs = [
   },
 ];
 
+const initUsers = [
+  {
+    username: 'hellas',
+    name: 'Arto Hellas',
+    password: '8day1fdds',
+  },
+  {
+    username: 'mluukkai',
+    name: 'Matti Luukkainen',
+    password: 'Ldd03sd2J',
+  },
+];
+
 const blogInDB = async () => {
   const blogs = await Blog.find({});
   return blogs.map((blog) => blog.toJSON());
 };
 
-module.exports = { initBlogs, blogInDB };
+const userInDB = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
+};
+
+const hashFrom = (user) => {
+  const { password } = user;
+  // eslint-disable-next-line no-param-reassign
+  delete user.password;
+  const saltRounds = 8;
+  // const passwordHash = await bcrypt.hash(password, saltRounds);
+  const passwordHash = bcrypt.hashSync(password, saltRounds);
+  const ret = { ...user, passwordHash };
+  return ret;
+};
+
+module.exports = {
+  initBlogs,
+  initUsers,
+  blogInDB,
+  userInDB,
+  hashFrom,
+};
