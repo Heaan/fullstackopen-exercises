@@ -27,7 +27,7 @@ blogsRouter.put('/:id', async (req, res) => {
 
   const blog = await Blog.findByIdAndUpdate(id, { likes }, { new: true });
   if (blog) {
-    res.json(blog.toJSON());
+    res.status(201).json(blog.toJSON());
   } else {
     res.status(404).end();
   }

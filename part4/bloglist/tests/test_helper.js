@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const config = require('../utils/config');
 
 const initBlogs = [
   {
@@ -44,11 +46,17 @@ const hashFrom = (user) => {
   const { password } = user;
   // eslint-disable-next-line no-param-reassign
   delete user.password;
-  const saltRounds = 8;
+  const saltRounds = 6;
   // const passwordHash = await bcrypt.hash(password, saltRounds);
   const passwordHash = bcrypt.hashSync(password, saltRounds);
   const ret = { ...user, passwordHash };
   return ret;
+};
+
+const getToken = (user) => {
+  const { username, _id } = user;
+  const token = jwt.sign({ username, id: _id }, config.SECRET);
+  return token;
 };
 
 module.exports = {
@@ -57,4 +65,5 @@ module.exports = {
   blogInDB,
   userInDB,
   hashFrom,
+  getToken,
 };
