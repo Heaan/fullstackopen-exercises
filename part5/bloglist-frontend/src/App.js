@@ -80,6 +80,12 @@ const App = () => {
     }
   };
 
+  const handleLike = async (blog) => {
+    const { id } = blog;
+    const data = await blogService.update(blog);
+    setBlogs(blogs.map((b) => (b.id === id ? data : b)));
+  };
+
   return (
     <div>
       <h2>Blogs</h2>
@@ -92,7 +98,7 @@ const App = () => {
       )}
       <h2>Blog list</h2>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} good={handleLike} />
       ))}
     </div>
   );
