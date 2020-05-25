@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import Togglable from './components/Togglable';
 import './App.css';
 
 const App = () => {
@@ -13,9 +14,6 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +30,8 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const blogFormRef = React.createRef();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -65,16 +65,14 @@ const App = () => {
     }, 5000);
   };
 
-  const handleCreate = async (event) => {
-    event.preventDefault();
+  const handleCreate = async (blog) => {
     try {
-      const data = await blogService.create({ title, author, url });
+      const data = await blogService.create(blog);
+
+      blogFormRef.current.toggle();
 
       const blogList = blogs.concat(data);
       setBlogs(blogList);
-      setTitle('');
-      setAuthor('');
-      setUrl('');
       setErrorMessage(`success: a new blog ${data.title} added`);
       setTimeout(() => {
         setErrorMessage(null);
@@ -100,16 +98,9 @@ const App = () => {
         handlePassChange={({ target }) => setPassword(target.value)}
         handleLogout={handleLogout}
       />
-      <BlogForm
-        user={userInfo}
-        title={title}
-        author={author}
-        url={url}
-        handleCreate={handleCreate}
-        handleTitleChange={({ target }) => setTitle(target.value)}
-        handleAuthorChange={({ target }) => setAuthor(target.value)}
-        handleUrlChange={({ target }) => setUrl(target.value)}
-      />
+      <Togglable text="new blog" ref={blogFormRef}>
+        <BlogForm user={userInfo} create={handleCreate} />
+      </Togglable>
       <h2>Blog list</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

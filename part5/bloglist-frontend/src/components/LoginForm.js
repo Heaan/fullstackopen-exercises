@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Input from './Input';
 import Button from './Button';
 
@@ -45,13 +45,13 @@ const LoginForm = ({
   );
 };
 LoginForm.propTypes = {
-  user: propTypes.object,
-  username: propTypes.string.isRequired,
-  password: propTypes.string.isRequired,
-  handleLogin: propTypes.func,
-  handleUserChange: propTypes.func,
-  handlePassChange: propTypes.func,
-  handleLogout: propTypes.func,
+  user: PropTypes.object,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  handleLogin: PropTypes.func,
+  handleUserChange: PropTypes.func,
+  handlePassChange: PropTypes.func,
+  handleLogout: PropTypes.func,
 };
 
 export default LoginForm;

@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const Notification = ({ message }) => {
   if (message !== null) {
@@ -9,7 +9,7 @@ const Notification = ({ message }) => {
   return null;
 };
 Notification.propTypes = {
-  message: propTypes.string,
+  message: PropTypes.string,
 };
 
 export default Notification;
