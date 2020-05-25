@@ -10,6 +10,7 @@ const Blog = ({ blog, good }) => {
   } = blog;
 
   const show = { display: visible ? '' : 'none' };
+  const text = visible ? 'hide' : 'view';
 
   const toggle = () => {
     setVisible(!visible);
@@ -23,7 +24,7 @@ const Blog = ({ blog, good }) => {
     <div className="blog-item">
       <header>
         <span>{title}</span>
-        <Button type="button" text="view" handleClick={toggle} />
+        <Button type="button" text={text} handleClick={toggle} />
       </header>
       <div style={show}>
         <section>{url}</section>
