@@ -13,10 +13,14 @@ const App = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const blogSort = (blogsArr) => {
+    setBlogs([...blogsArr].sort((first, second) => second.likes - first.likes));
+  };
+
   useEffect(() => {
     async function fetchData() {
       const data = await blogService.getAll();
-      setBlogs(data);
+      blogSort(data);
     }
     fetchData();
   }, []);
@@ -83,7 +87,16 @@ const App = () => {
   const handleLike = async (blog) => {
     const { id } = blog;
     const data = await blogService.update(blog);
-    setBlogs(blogs.map((b) => (b.id === id ? data : b)));
+    blogSort(blogs.map((b) => (b.id === id ? data : b)));
+  };
+
+  const handleRemove = async (target) => {
+    const { title, id } = target;
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Remove blog ${title}`)) {
+      await blogService.remove(id);
+      blogSort(blogs.filter((b) => b.id !== id));
+    }
   };
 
   return (
@@ -92,13 +105,13 @@ const App = () => {
       <Notification message={errorMessage} />
       <LoginForm user={userInfo} login={handleLogin} logout={handleLogout} />
       {userInfo !== null && (
-        <Togglable text="new blog" ref={blogFormRef}>
+        <Togglable text="create new blog" ref={blogFormRef}>
           <BlogForm create={handleCreate} />
         </Togglable>
       )}
       <h2>Blog list</h2>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} good={handleLike} />
+        <Blog key={blog.id} blog={blog} good={handleLike} remove={handleRemove} />
       ))}
     </div>
   );

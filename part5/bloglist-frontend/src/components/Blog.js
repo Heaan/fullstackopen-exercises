@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
-const Blog = ({ blog, good }) => {
+const Blog = ({ blog, good, remove }) => {
   const [visible, setVisible] = useState(false);
 
   const {
-    title, author, url, likes,
+    title, author, url, likes, id,
   } = blog;
 
   const show = { display: visible ? '' : 'none' };
@@ -18,6 +18,10 @@ const Blog = ({ blog, good }) => {
 
   const handleLike = () => {
     good({ ...blog, likes: likes + 1 });
+  };
+
+  const handleRemove = () => {
+    remove({ title, id });
   };
 
   return (
@@ -33,6 +37,7 @@ const Blog = ({ blog, good }) => {
           <Button type="button" text="like" handleClick={handleLike} />
         </section>
         <section>{author}</section>
+        <Button styleClass="remove" type="button" text="remove" handleClick={handleRemove} />
       </div>
     </div>
   );

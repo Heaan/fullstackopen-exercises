@@ -14,14 +14,22 @@ const getAll = async () => {
 
 const create = async (newBlog) => {
   const config = { headers: { Authorization: token } };
+
   const res = await axios.post(baseUrl, newBlog, config);
   return res.data;
 };
 
 const update = async (blog) => {
   const { id } = blog;
+
   const res = await axios.put(`${baseUrl}/${id}`, blog);
   return res.data;
+};
+
+const remove = async (id) => {
+  const config = { headers: { Authorization: token } };
+
+  await axios.delete(`${baseUrl}/${id}`, config);
 };
 
 export default {
@@ -29,4 +37,5 @@ export default {
   getAll,
   create,
   update,
+  remove,
 };
