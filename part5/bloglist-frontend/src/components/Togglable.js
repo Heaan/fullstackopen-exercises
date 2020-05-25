@@ -26,6 +26,7 @@ const Togglable = React.forwardRef(({ text, children }, ref) => {
     </div>
   );
 });
+Togglable.displayName = 'Togglable';
 Togglable.propTypes = {
   text: PropTypes.string.isRequired,
   children: PropTypes.node,
