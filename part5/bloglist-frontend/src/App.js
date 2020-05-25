@@ -10,8 +10,6 @@ import './App.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -33,16 +31,13 @@ const App = () => {
 
   const blogFormRef = React.createRef();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (userLogin) => {
     try {
-      const user = await loginService.login({ username, password });
+      const user = await loginService.login(userLogin);
 
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUserInfo(user);
-      setUsername('');
-      setPassword('');
       setErrorMessage(`success: welcome ${user.name}`);
       setTimeout(() => {
         setErrorMessage(null);
@@ -89,18 +84,12 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <Notification message={errorMessage} />
-      <LoginForm
-        user={userInfo}
-        username={username}
-        password={password}
-        handleLogin={handleLogin}
-        handleUserChange={({ target }) => setUsername(target.value)}
-        handlePassChange={({ target }) => setPassword(target.value)}
-        handleLogout={handleLogout}
-      />
-      <Togglable text="new blog" ref={blogFormRef}>
-        <BlogForm user={userInfo} create={handleCreate} />
-      </Togglable>
+      <LoginForm user={userInfo} login={handleLogin} logout={handleLogout} />
+      {userInfo !== null && (
+        <Togglable text="new blog" ref={blogFormRef}>
+          <BlogForm create={handleCreate} />
+        </Togglable>
+      )}
       <h2>Blog list</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

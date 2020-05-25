@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Input from './Input';
 import Button from './Button';
 
-const BlogForm = ({ user, create }) => {
+const BlogForm = ({ create }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
@@ -16,41 +16,37 @@ const BlogForm = ({ user, create }) => {
     setUrl('');
   };
 
-  if (user !== null) {
-    return (
-      <div>
-        <h2>Create new</h2>
-        <form onSubmit={handleCreate}>
-          <Input
-            text="title"
-            type="text"
-            name="title"
-            value={title}
-            handleChange={({ target }) => setTitle(target.value)}
-          />
-          <Input
-            text="author"
-            type="text"
-            name="author"
-            value={author}
-            handleChange={({ target }) => setAuthor(target.value)}
-          />
-          <Input
-            text="url"
-            type="text"
-            name="url"
-            value={url}
-            handleChange={({ target }) => setUrl(target.value)}
-          />
-          <Button type="submit" text="create" />
-        </form>
-      </div>
-    );
-  }
-  return null;
+  return (
+    <div>
+      <h2>Create new</h2>
+      <form onSubmit={handleCreate}>
+        <Input
+          text="title"
+          type="text"
+          name="title"
+          value={title}
+          handleChange={({ target }) => setTitle(target.value)}
+        />
+        <Input
+          text="author"
+          type="text"
+          name="author"
+          value={author}
+          handleChange={({ target }) => setAuthor(target.value)}
+        />
+        <Input
+          text="url"
+          type="text"
+          name="url"
+          value={url}
+          handleChange={({ target }) => setUrl(target.value)}
+        />
+        <Button type="submit" text="create" />
+      </form>
+    </div>
+  );
 };
 BlogForm.propTypes = {
-  user: PropTypes.object,
   create: PropTypes.func.isRequired,
 };
 
