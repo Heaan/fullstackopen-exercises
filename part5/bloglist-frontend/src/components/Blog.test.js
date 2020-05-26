@@ -35,4 +35,18 @@ describe('Blog list rendering', () => {
     expect(component.getByText('http://test.com/testing-blog-render')).toBeDefined();
     expect(component.container.querySelector('.likes-num')).toHaveTextContent('1');
   });
+
+  test('`like` button is clicked twice', () => {
+    const good = jest.fn();
+    component = render(<Blog blog={blog} good={good} />);
+
+    const view = component.getByText('view');
+    fireEvent.click(view);
+
+    const like = component.getByText('like');
+    fireEvent.click(like);
+    fireEvent.click(like);
+
+    expect(good.mock.calls).toHaveLength(2);
+  });
 });
