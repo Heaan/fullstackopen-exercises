@@ -17,12 +17,22 @@ describe('Blog list rendering', () => {
       },
     };
   });
-  test('when the `view` button is not clicked', () => {
+  test('when the `view` button is Not clicked', () => {
     component = render(<Blog blog={blog} />);
 
     expect(component.getByText('testing blog render Someone')).toBeDefined();
 
     expect(component.container).not.toHaveTextContent('http://test.com/testing-blog-render');
     expect(component.container.querySelector('.blog-item')).not.toHaveTextContent('likes');
+  });
+
+  test('when the `view` button is clicked', () => {
+    component = render(<Blog blog={blog} />);
+
+    const button = component.getByText('view');
+    fireEvent.click(button);
+
+    expect(component.getByText('http://test.com/testing-blog-render')).toBeDefined();
+    expect(component.container.querySelector('.likes-num')).toHaveTextContent('1');
   });
 });
