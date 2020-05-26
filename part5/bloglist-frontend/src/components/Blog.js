@@ -6,10 +6,9 @@ const Blog = ({ blog, good, remove }) => {
   const [visible, setVisible] = useState(false);
 
   const {
-    title, author, url, likes, id,
+    title, author, url, likes, id, user,
   } = blog;
 
-  const show = { display: visible ? '' : 'none' };
   const text = visible ? 'hide' : 'view';
 
   const toggle = () => {
@@ -26,27 +25,29 @@ const Blog = ({ blog, good, remove }) => {
 
   return (
     <div className="blog-item">
-      <header>
-        <span>{title}</span>
+      <div>
+        {title} {author}
         <Button type="button" text={text} handleClick={toggle} />
-      </header>
-      <div style={show}>
-        <section>{url}</section>
-        <section>
-          <span>likes {likes}</span>
-          <Button type="button" text="like" handleClick={handleLike} />
-        </section>
-        <section>{author}</section>
-        <Button styleClass="remove" type="button" text="remove" handleClick={handleRemove} />
       </div>
+      {visible && (
+        <div>
+          <div>{url}</div>
+          <div>
+            likes <span className="likes-num">{likes}</span>
+            <Button type="button" text="like" handleClick={handleLike} />
+          </div>
+          <div>{user.name}</div>
+          <Button styleClass="remove" type="button" text="remove" handleClick={handleRemove} />
+        </div>
+      )}
     </div>
   );
 };
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  good: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
+  good: PropTypes.func,
+  remove: PropTypes.func,
 };
 
 export default Blog;
