@@ -37,4 +37,22 @@ describe('Blog app', function () {
         .and('have.css', 'color', 'rgb(255, 0, 0)');
     });
   });
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.get('#username').type('root');
+      cy.get('#password').type('root');
+      cy.get('#login').click();
+    });
+
+    it('A blog can be create', function () {
+      cy.contains('create new blog').click();
+      cy.get('#title').type('Chief Web Director');
+      cy.get('#author').type('Brendan Bode');
+      cy.get('#url').type('http://daisy.info');
+      cy.get('#create').click();
+
+      cy.get('.blog-item').contains('Chief Web Director Brendan Bode');
+    });
+  });
 });
