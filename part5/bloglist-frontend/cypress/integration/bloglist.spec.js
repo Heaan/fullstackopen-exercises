@@ -64,7 +64,7 @@ describe('Blog app', function () {
           title: 'Lead Optimization Supervisor',
           author: 'Genevieve McClure',
           url: 'https://jadon.biz',
-          likes: 5,
+          likes: 10,
         });
         cy.createBlog({
           title: 'Direct Optimization Executive',
@@ -74,7 +74,8 @@ describe('Blog app', function () {
         });
         cy.visit('http://localhost:3000');
       });
-      it.only('a blog can be liked', function () {
+
+      it('a blog can be liked', function () {
         cy.contains('Dynamic Implementation Consultant').contains('view').click();
 
         cy.contains('Dynamic Implementation Consultant')
@@ -86,6 +87,35 @@ describe('Blog app', function () {
           .click();
 
         cy.get('@theLikes').should('contain', 'likes 1');
+      });
+
+      it('a blog can be remove by creator', function () {
+        cy.contains('Lead Optimization Supervisor').contains('view').click();
+
+        cy.contains('Lead Optimization Supervisor').parent().find('.blog-details').as('theBlog');
+        cy.get('@theBlog').get('.remove').click();
+
+        cy.get('html').should('not.contain', 'Lead Optimization Supervisor');
+      });
+
+      it('a blog can not be removed by user who is not the creator', function () {
+        cy.request('POST', 'http://localhost:3001/api/users', {
+          username: 'kale',
+          password: 'services',
+          name: 'Misty Torp V',
+        });
+
+        cy.contains('logout').click();
+
+        cy.login({ username: 'kale', password: 'services' });
+        cy.contains('Misty Torp V logged in');
+
+        cy.contains('Direct Optimization Executive').as('theTitle').contains('view').click();
+
+        cy.get('@theTitle').parent().find('.blog-details').as('theBlog');
+        cy.get('@theBlog').get('.remove').click();
+
+        cy.get('@theTitle').should('contain', 'Direct Optimization Executive');
       });
     });
   });
