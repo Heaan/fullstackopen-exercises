@@ -40,9 +40,7 @@ describe('Blog app', function () {
 
   describe('When logged in', function () {
     beforeEach(function () {
-      cy.get('#username').type('root');
-      cy.get('#password').type('root');
-      cy.get('#login').click();
+      cy.login({ username: 'root', password: 'root' });
     });
 
     it('A blog can be create', function () {
@@ -53,6 +51,42 @@ describe('Blog app', function () {
       cy.get('#create').click();
 
       cy.get('.blog-item').contains('Chief Web Director Brendan Bode');
+    });
+
+    describe('and several blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'Dynamic Implementation Consultant',
+          author: 'Reed Flatley',
+          url: 'https://lou.info',
+        });
+        cy.createBlog({
+          title: 'Lead Optimization Supervisor',
+          author: 'Genevieve McClure',
+          url: 'https://jadon.biz',
+          likes: 5,
+        });
+        cy.createBlog({
+          title: 'Direct Optimization Executive',
+          author: 'Simeon Heathcote',
+          url: 'https://helena.com',
+          likes: 5,
+        });
+        cy.visit('http://localhost:3000');
+      });
+      it.only('a blog can be liked', function () {
+        cy.contains('Dynamic Implementation Consultant').contains('view').click();
+
+        cy.contains('Dynamic Implementation Consultant')
+          .parent()
+          .find('.blog-details')
+          .contains('likes')
+          .as('theLikes')
+          .find('button')
+          .click();
+
+        cy.get('@theLikes').should('contain', 'likes 1');
+      });
     });
   });
 });

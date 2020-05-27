@@ -30,7 +30,7 @@ const Blog = ({ blog, good, remove }) => {
         <Button type="button" text={text} handleClick={toggle} />
       </div>
       {visible && (
-        <div>
+        <div className="blog-details">
           <div>{url}</div>
           <div>
             likes <span className="likes-num">{likes}</span>
