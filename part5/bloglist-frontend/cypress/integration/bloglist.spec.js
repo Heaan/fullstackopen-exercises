@@ -117,6 +117,17 @@ describe('Blog app', function () {
 
         cy.get('@theTitle').should('contain', 'Direct Optimization Executive');
       });
+
+      it('blogs are ordered according to likes', function () {
+        cy.get('.blog-item').each((value, index) => {
+          cy.wrap(value).contains('view').click();
+          cy.wrap(value).get('.likes-num').as(`likes_${index}`);
+        });
+
+        cy.get('@likes_0').contains('10');
+        cy.get('@likes_1').contains('5');
+        cy.get('@likes_2').contains('0');
+      });
     });
   });
 });
