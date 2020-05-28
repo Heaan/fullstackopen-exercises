@@ -19,9 +19,7 @@ export const voteIt = (id) => {
 export const createFrom = (content) => {
   return {
     type: 'NEW_ANECDOTE',
-    data: {
-      content,
-    },
+    data: asObject(content),
   };
 };
 
@@ -49,8 +47,8 @@ const reducer = (state = initialState, action) => {
       );
       return changedAnecdotes;
     case 'NEW_ANECDOTE':
-      const { content } = action.data;
-      return [...state, asObject(content)];
+      const { data } = action;
+      return [...state, data];
     default:
       return state;
   }
