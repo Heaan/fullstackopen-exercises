@@ -18,10 +18,13 @@ export const voteIt = (id) => {
   };
 };
 
-export const createFrom = (data) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data,
+export const createFrom = (anecdote) => {
+  return async (dispatch) => {
+    const data = await anecdoteService.create(anecdote);
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data,
+    });
   };
 };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { createFrom } from '../reducers/anecdoteReducer';
 import { resetNotice } from '../reducers/notificationReducer';
-import anecdotesService from '../services/anecdotes';
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -15,8 +14,7 @@ const AnecdoteForm = () => {
       content,
       votes: 0,
     };
-    const data = await anecdotesService.create(anecdote);
-    dispatch(createFrom(data));
+    dispatch(createFrom(anecdote));
     setTimeout(() => {
       dispatch(resetNotice());
     }, 5000);
