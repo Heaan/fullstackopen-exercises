@@ -4,7 +4,7 @@ export const setNotification = (message, timeout) => {
       type: 'SET',
       data: message,
     });
-    await setTimeout(() => {
+    setTimeout(() => {
       dispatch({
         type: 'RESET',
         data: null,
