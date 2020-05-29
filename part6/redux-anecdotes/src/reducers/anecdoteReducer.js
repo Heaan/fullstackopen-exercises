@@ -16,10 +16,10 @@ export const voteIt = (id) => {
   };
 };
 
-export const createFrom = (content) => {
+export const createFrom = (data) => {
   return {
     type: 'NEW_ANECDOTE',
-    data: asObject(content),
+    data,
   };
 };
 
@@ -30,15 +30,15 @@ export const initializeAnecdotes = (data) => {
   };
 };
 
-const getId = () => (100000 * Math.random()).toFixed(0);
+// const getId = () => (100000 * Math.random()).toFixed(0);
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0,
-  };
-};
+// const asObject = (anecdote) => {
+//   return {
+//     content: anecdote,
+//     id: getId(),
+//     votes: 0,
+//   };
+// };
 
 // const initialState = anecdotesAtStart.map(asObject);
 
