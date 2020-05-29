@@ -1,15 +1,25 @@
+const timeoutObj = {
+  setup: function (dispatch, action, timeout) {
+    this.cancel();
+    this.timeoutID = setTimeout(() => {
+      dispatch(action);
+    }, timeout * 1000);
+  },
+  cancel: function () {
+    if (typeof this.timeoutID === 'number') {
+      clearTimeout(this.timeoutID);
+      delete this.timeoutID;
+    }
+  },
+};
+
 export const setNotification = (message, timeout) => {
   return async (dispatch) => {
     dispatch({
       type: 'SET',
       data: message,
     });
-    setTimeout(() => {
-      dispatch({
-        type: 'RESET',
-        data: null,
-      });
-    }, timeout * 1000);
+    timeoutObj.setup(dispatch, { type: 'RESET', data: null }, timeout);
   };
 };
 
