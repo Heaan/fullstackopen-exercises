@@ -12,4 +12,10 @@ const create = async (anecdote) => {
   return res.data;
 };
 
-export default { getAll, create };
+const update = async (anecdote) => {
+  const { id } = anecdote;
+  const res = await Axios.put(`${baseUrl}/${id}`, anecdote);
+  return res.data;
+};
+
+export default { getAll, create, update };

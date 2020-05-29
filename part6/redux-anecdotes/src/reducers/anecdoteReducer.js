@@ -9,12 +9,13 @@ import anecdoteService from '../services/anecdotes';
 //   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
 // ];
 
-export const voteIt = (id) => {
-  return {
-    type: 'VOTE',
-    data: {
-      id,
-    },
+export const voteIt = (anecdote) => {
+  return async (dispatch) => {
+    const data = await anecdoteService.update(anecdote);
+    dispatch({
+      type: 'VOTE',
+      data,
+    });
   };
 };
 
@@ -56,10 +57,7 @@ const reducer = (state = [], action) => {
       return action.data;
     case 'VOTE':
       const { id } = action.data;
-      const anecdoteToChange = state.find((item) => item.id === id);
-      const changedAnecdotes = state.map((item) =>
-        item.id !== id ? item : { ...anecdoteToChange, votes: anecdoteToChange.votes + 1 },
-      );
+      const changedAnecdotes = state.map((item) => (item.id !== id ? item : action.data));
       return changedAnecdotes;
     case 'NEW_ANECDOTE':
       const { data } = action;

@@ -23,8 +23,9 @@ const AnecdoteList = (props) => {
   );
   const dispatch = useDispatch();
 
-  const vote = (id) => {
-    dispatch(voteIt(id));
+  const vote = async (id) => {
+    const anecdote = anecdotes.find((a) => a.id === id);
+    dispatch(voteIt({ ...anecdote, votes: anecdote.votes + 1 }));
     setTimeout(() => {
       dispatch(resetNotice());
     }, 5000);
