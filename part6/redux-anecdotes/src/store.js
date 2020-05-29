@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 
 const reducer = combineReducers({
   anecdotes: anecdoteReducer,
-  notice: notificationReducer,
+  message: notificationReducer,
   filter: filterReducer,
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { createFrom } from '../reducers/anecdoteReducer';
-import { resetNotice } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -15,9 +15,7 @@ const AnecdoteForm = () => {
       votes: 0,
     };
     dispatch(createFrom(anecdote));
-    setTimeout(() => {
-      dispatch(resetNotice());
-    }, 5000);
+    dispatch(setNotification(`you created '${content}'`, 5));
   };
 
   return (

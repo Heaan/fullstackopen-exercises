@@ -1,18 +1,24 @@
-export const resetNotice = () => ({
-  type: 'RESET',
-  data: {
-    id: null,
-  },
-});
+export const setNotification = (message, timeout) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SET',
+      data: message,
+    });
+    await setTimeout(() => {
+      dispatch({
+        type: 'RESET',
+        data: null,
+      });
+    }, timeout * 1000);
+  };
+};
 
 const reducer = (state = null, { type, data }) => {
   switch (type) {
+    case 'SET':
+      return data;
     case 'RESET':
       return null;
-    case 'VOTE':
-      return data.id;
-    case 'NEW_ANECDOTE':
-      return data.id;
     default:
       return state;
   }

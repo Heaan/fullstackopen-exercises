@@ -2,9 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const Notification = () => {
-  const notification = useSelector((state) =>
-    state.anecdotes.find((anecdote) => anecdote.id === state.notice),
-  );
+  const notification = useSelector((state) => state.message);
 
   const style = {
     border: 'solid',
@@ -12,7 +10,7 @@ const Notification = () => {
     borderWidth: 1,
   };
   if (notification) {
-    return <div style={style}>{notification.content}</div>;
+    return <div style={style}>{notification}</div>;
   }
   return null;
 };
