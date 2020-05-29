@@ -17,12 +17,13 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const AnecdoteList = (props) => {
   const anecdotes = useSelector((state) =>
-    [...state.anecdotes].sort((first, second) => second.votes - first.votes),
+    state.anecdotes
+      .filter((anecdote) => anecdote.content.toLowerCase().includes(state.filter.toLowerCase()))
+      .sort((first, second) => second.votes - first.votes),
   );
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    console.log('vote', id);
     dispatch(voteIt(id));
     setTimeout(() => {
       dispatch(resetNotice());
