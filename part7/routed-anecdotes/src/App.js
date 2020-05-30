@@ -90,9 +90,9 @@ const Footer = () => {
 
 const CreateNew = (props) => {
   const history = useHistory();
-  const content = useField('content');
-  const author = useField('author');
-  const info = useField('info');
+  const [content, contentReset] = useField('content');
+  const [author, authorReset] = useField('author');
+  const [info, infoReset] = useField('info');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,9 +108,9 @@ const CreateNew = (props) => {
 
   const handleReset = (e) => {
     e.preventDefault();
-    content.reset();
-    author.reset();
-    info.reset();
+    contentReset();
+    authorReset();
+    infoReset();
   };
 
   return (
@@ -159,7 +159,6 @@ const App = () => {
       id: '2',
     },
   ]);
-
   const [notification, setNotification] = useState('');
 
   const addNew = (anecdote) => {
@@ -183,24 +182,9 @@ const App = () => {
   const match = useRouteMatch('/anecdotes/:id');
   const anecdote = match ? anecdotes.find((a) => a.id === match.params.id) : null;
 
-  const timeoutObj = {
-    setup: function (set, timeout) {
-      this.cancel();
-      this.timeoutID = setTimeout(() => {
-        set('');
-      }, timeout * 1000);
-    },
-    cancel: function () {
-      if (typeof this.timeoutID === 'number') {
-        clearTimeout(this.timeoutID);
-        delete this.timeoutID;
-      }
-    },
-  };
-
   const setMessage = (message) => {
     setNotification(message);
-    timeoutObj.setup(setNotification, 10);
+    timeoutObj.setup(10, setNotification);
   };
 
   return (
@@ -225,6 +209,23 @@ const App = () => {
       <Footer />
     </div>
   );
+};
+
+const timeoutObj = {
+  setup: function (timeout, setState, state) {
+    console.log(new Date());
+
+    this.cancel();
+    this.timeoutID = setTimeout(() => {
+      setState(state);
+    }, timeout * 1000);
+  },
+  cancel: function () {
+    if (typeof this.timeoutID === 'number') {
+      clearTimeout(this.timeoutID);
+      delete this.timeoutID;
+    }
+  },
 };
 
 export default App;
