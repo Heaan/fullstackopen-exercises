@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Link, BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
+import {
+  Link,
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useRouteMatch,
+  useHistory,
+} from 'react-router-dom';
 
 const Menu = () => {
   const padding = {
@@ -20,10 +27,9 @@ const Menu = () => {
   );
 };
 
-const Anecdote = ({ anecdotes }) => {
-  const { id } = useParams();
-  const anecdote = anecdotes.find((a) => a.id === id);
-
+const Anecdote = ({ anecdote }) => {
+  // const { id } = useParams();
+  // const anecdote = anecdotes.find((a) => a.id === id);
   return (
     <div>
       <h2>
@@ -92,6 +98,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,6 +108,8 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    history.push('/');
+    props.setMessage(`a new anecdote ${content} created!`);
   };
 
   return (
@@ -123,6 +132,10 @@ const CreateNew = (props) => {
       </form>
     </div>
   );
+};
+
+const Notification = ({ message }) => {
+  return <div>{message}</div>;
 };
 
 const App = () => {
@@ -163,26 +176,48 @@ const App = () => {
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
 
+  const match = useRouteMatch('/anecdotes/:id');
+  const anecdote = match ? anecdotes.find((a) => a.id === match.params.id) : null;
+
+  const timeoutObj = {
+    setup: function (set, timeout) {
+      this.cancel();
+      this.timeoutID = setTimeout(() => {
+        set('');
+      }, timeout * 1000);
+    },
+    cancel: function () {
+      if (typeof this.timeoutID === 'number') {
+        clearTimeout(this.timeoutID);
+        delete this.timeoutID;
+      }
+    },
+  };
+
+  const setMessage = (message) => {
+    setNotification(message);
+    timeoutObj.setup(setNotification, 10);
+  };
+
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Router>
-        <Menu />
-        <Switch>
-          <Route path="/anecdotes/:id">
-            <Anecdote anecdotes={anecdotes} />
-          </Route>
-          <Route path="/create">
-            <CreateNew addNew={addNew} />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/">
-            <AnecdoteList anecdotes={anecdotes} />
-          </Route>
-        </Switch>
-      </Router>
+      <Menu />
+      {notification ? <Notification message={notification} /> : null}
+      <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
+        <Route path="/create">
+          <CreateNew addNew={addNew} setMessage={setMessage} />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/">
+          <AnecdoteList anecdotes={anecdotes} />
+        </Route>
+      </Switch>
       <Footer />
     </div>
   );
