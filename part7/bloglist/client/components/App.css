@@ -1,0 +1,36 @@
+.message {
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.btn {
+  margin: 0 5px;
+}
+
+.blog-item {
+  padding-top: 10px;
+  padding-left: 2px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.remove {
+  background-color: red;
+  color: aliceblue;
+  border-radius: 5px;
+  border: solid red;
+}

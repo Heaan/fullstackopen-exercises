@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
-import { useField } from './hooks/index';
+import { useField, useTimeout } from './hooks/index';
 
 const Menu = () => {
   const padding = {
@@ -160,6 +160,7 @@ const App = () => {
     },
   ]);
   const [notification, setNotification] = useState('');
+  const setNotificationTimeout = useTimeout();
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
@@ -184,7 +185,7 @@ const App = () => {
 
   const setMessage = (message) => {
     setNotification(message);
-    timeoutObj.setup(10, setNotification);
+    setNotificationTimeout(10, setNotification);
   };
 
   return (
@@ -209,23 +210,6 @@ const App = () => {
       <Footer />
     </div>
   );
-};
-
-const timeoutObj = {
-  setup: function (timeout, setState, state) {
-    console.log(new Date());
-
-    this.cancel();
-    this.timeoutID = setTimeout(() => {
-      setState(state);
-    }, timeout * 1000);
-  },
-  cancel: function () {
-    if (typeof this.timeoutID === 'number') {
-      clearTimeout(this.timeoutID);
-      delete this.timeoutID;
-    }
-  },
 };
 
 export default App;

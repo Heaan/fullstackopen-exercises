@@ -13,3 +13,21 @@ export const useField = (name) => {
 
   return [{ name, value, onChange }, reset];
 };
+
+export const useTimeout = () => {
+  const [timeoutId, setTimeoutId] = useState(null);
+
+  const setup = (timeout, setState, state) => {
+    if (typeof timeoutId === 'number') {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
+    }
+    setTimeoutId(
+      setTimeout(() => {
+        setState(state);
+      }, timeout * 1000),
+    );
+  };
+
+  return setup;
+};
