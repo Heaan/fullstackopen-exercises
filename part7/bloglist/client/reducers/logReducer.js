@@ -1,6 +1,6 @@
 import loginService from 'Utilities/services/login';
 import blogService from 'Utilities/services/blogs';
-import { success, reset, fail } from './messageReducer';
+import { success, reset, fail } from 'Reducers/messageReducer';
 
 export const login = (user) => async (dispatch) => {
   try {

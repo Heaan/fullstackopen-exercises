@@ -16,7 +16,6 @@ const BlogForm = (props) => {
     const url = event.target.url.value;
     event.target.url.value = '';
     dispatch(createFrom({ title, author, url }));
-    props.toggle();
   };
 
   return (

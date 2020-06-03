@@ -1,4 +1,4 @@
-import React, { Children, isValidElement, cloneElement } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'Components/Button';
 import { toggleTo } from 'Reducers/toggleReducer';
@@ -20,12 +20,7 @@ const Togglable = ({ text, children }) => {
         <Button type="button" handleClick={toggle} text={text} />
       </div>
       <div style={show}>
-        {Children.map(children, (child) => {
-          if (isValidElement(child)) {
-            return cloneElement(child, { toggle });
-          }
-          return child;
-        })}
+        {children}
         <Button type="button" handleClick={toggle} text="cancel" />
       </div>
     </div>

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import blogReducer from './blogReducer';
-import messageReducer from './messageReducer';
-import logReducer from './logReducer';
-import toggleReducer from './toggleReducer';
+import blogReducer from 'Reducers/blogReducer';
+import messageReducer from 'Reducers/messageReducer';
+import logReducer from 'Reducers/logReducer';
+import toggleReducer from 'Reducers/toggleReducer';
 
 export default combineReducers({
   blogs: blogReducer,

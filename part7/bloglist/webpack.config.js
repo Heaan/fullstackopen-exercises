@@ -15,6 +15,7 @@ module.exports = (env, argv) => {
         Utilities: path.resolve(__dirname, 'client/util/'),
         Components: path.resolve(__dirname, 'client/components'),
         Assets: path.resolve(__dirname, 'client/assets'),
+        Reducers: path.resolve(__dirname, 'client/reducers'),
         '@root': path.resolve(__dirname),
       },
     },

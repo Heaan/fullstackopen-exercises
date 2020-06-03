@@ -1,5 +1,6 @@
 import blogService from 'Utilities/services/blogs';
-import { success, fail, reset } from './messageReducer';
+import { success, fail, reset } from 'Reducers/messageReducer';
+import { toggleTo } from './toggleReducer';
 
 export const initializeBlogs = () => async (dispatch) => {
   const data = await blogService.getAll();
@@ -16,6 +17,7 @@ export const createFrom = (blog) => async (dispatch) => {
       type: 'NEW_BLOG',
       data,
     });
+    dispatch(toggleTo(false));
     dispatch(success(`success: a new blog ${blog.title} added`));
     setTimeout(() => {
       dispatch(reset());
@@ -50,20 +52,15 @@ export const toggleWith = (data) => ({
   data,
 });
 
-const addVisible = (target) => ({
-  ...target,
-  visible: false,
-});
-
 const reducer = (state = [], { type, data }) => {
   switch (type) {
     case 'INIT_BLOGS':
-      return data.map((item) => addVisible(item));
+      return data.map((item) => item);
     case 'NEW_BLOG':
-      return [...state, addVisible(data)];
+      return [...state, data];
     case 'LIKE_BLOG': {
       const { id } = data;
-      return state.map((item) => (item.id === id ? data : item));
+      return state.map((item) => (item.id === id ? { ...data, visible: true } : item));
     }
     case 'REMOVE_BLOG': {
       const { id } = data;
