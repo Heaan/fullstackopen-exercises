@@ -11,6 +11,8 @@ import { initializeBlogs } from 'Reducers/blogReducer';
 import { logged } from 'Reducers/logReducer';
 import UsersList from 'Components/UsersList';
 import { initializeUsers } from 'Reducers/usersReducer';
+import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import User from 'Components/User';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,18 +34,31 @@ const App = () => {
   const userInfo = useSelector((state) => state.user);
 
   return (
-    <div>
+    <Router>
       <h2>Blogs</h2>
       <Notification />
       <LoginForm />
-      <UsersList />
-      {userInfo !== null && (
-        <Togglable text="create new blog">
-          <BlogForm />
-        </Togglable>
-      )}
-      <BlogList />
-    </div>
+      <Switch>
+        <Route path="/users">
+          <UsersList />
+        </Route>
+
+        <Route path="/blogs/:id">
+          <User />
+        </Route>
+        <Route path="/blogs">
+          {userInfo !== null && (
+            <Togglable text="create new blog">
+              <BlogForm />
+            </Togglable>
+          )}
+          <BlogList />
+        </Route>
+        <Route path="/">
+          <div>Welcome!</div>
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
