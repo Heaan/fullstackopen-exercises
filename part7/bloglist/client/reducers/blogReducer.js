@@ -37,6 +37,7 @@ export const like = (blog) => async (dispatch) => {
     data,
   });
 };
+
 export const remove = (id) => async (dispatch) => {
   await blogService.remove(id);
   dispatch({
@@ -47,11 +48,6 @@ export const remove = (id) => async (dispatch) => {
   });
 };
 
-export const toggleWith = (data) => ({
-  type: 'TOGGLE_BLOG',
-  data,
-});
-
 const reducer = (state = [], { type, data }) => {
   switch (type) {
     case 'INIT_BLOGS':
@@ -60,15 +56,11 @@ const reducer = (state = [], { type, data }) => {
       return [...state, data];
     case 'LIKE_BLOG': {
       const { id } = data;
-      return state.map((item) => (item.id === id ? { ...data, visible: true } : item));
+      return state.map((item) => (item.id === id ? data : item));
     }
     case 'REMOVE_BLOG': {
       const { id } = data;
       return state.filter((item) => item.id !== id);
-    }
-    case 'TOGGLE_BLOG': {
-      const { id } = data;
-      return state.map((item) => (item.id === id ? data : item));
     }
     default:
       return state;

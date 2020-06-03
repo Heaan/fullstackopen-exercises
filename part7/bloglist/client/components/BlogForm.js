@@ -4,7 +4,7 @@ import Input from 'Components/Input';
 import Button from 'Components/Button';
 import { createFrom } from 'Reducers/blogReducer';
 
-const BlogForm = (props) => {
+const BlogForm = () => {
   const dispatch = useDispatch();
 
   const addNew = (event) => {

@@ -44,9 +44,7 @@ const LoginForm = () => {
   return (
     <div>
       <p>
-        {user.name}
-        {' '}
-        logged in
+        {user.name} logged in
         <Button type="button" text="logout" handleClick={handleLogout} />
       </p>
     </div>

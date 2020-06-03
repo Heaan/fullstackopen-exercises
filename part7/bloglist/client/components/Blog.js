@@ -1,53 +1,34 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'Components/Button';
-import { like, remove, toggleWith } from 'Reducers/blogReducer';
+import { like } from 'Reducers/blogReducer';
+import { useParams } from 'react-router-dom';
 
-const Blog = ({ blog }) => {
+const Blog = () => {
   const dispatch = useDispatch();
-
-  const {
-    title, author, url, likes, id, user, visible,
-  } = blog;
-
-  const text = visible ? 'hide' : 'view';
-
-  const toggle = () => {
-    dispatch(toggleWith({ ...blog, visible: !visible }));
-  };
+  const { id } = useParams();
+  const blog = useSelector((state) => state.blogs.find((b) => b.id === id));
 
   const handleLike = () => {
-    dispatch(like({ ...blog, likes: likes + 1 }));
+    dispatch(like({ ...blog, likes: blog.likes + 1 }));
   };
 
-  const handleRemove = () => {
-    // eslint-disable-next-line no-alert
-    if (window.confirm(`Remove blog ${title}`)) {
-      dispatch(remove(id));
-    }
-  };
-
+  if (!blog) {
+    return null;
+  }
   return (
-    <div className="blog-item">
+    <div>
+      <h2>
+        {blog.title} {blog.author}
+      </h2>
       <div>
-        {title}
-        {' '}
-        {author}
-        <Button type="button" text={text} handleClick={toggle} />
+        <a href={blog.url}>{blog.url}</a>
       </div>
-      {visible && (
-        <div className="blog-details">
-          <div>{url}</div>
-          <div>
-            likes
-            {' '}
-            <span className="likes-num">{likes}</span>
-            <Button type="button" text="like" handleClick={handleLike} />
-          </div>
-          <div>{user.name}</div>
-          <Button styleClass="remove" type="button" text="remove" handleClick={handleRemove} />
-        </div>
-      )}
+      <div>
+        {blog.likes} likes
+        <Button type="button" text="like" handleClick={handleLike} />
+      </div>
+      <div>added by {blog.user.name}</div>
     </div>
   );
 };

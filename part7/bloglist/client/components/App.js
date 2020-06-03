@@ -13,6 +13,7 @@ import UsersList from 'Components/UsersList';
 import { initializeUsers } from 'Reducers/usersReducer';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import User from 'Components/User';
+import Blog from './Blog';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,12 +40,14 @@ const App = () => {
       <Notification />
       <LoginForm />
       <Switch>
+        <Route path="/users/:id">
+          <User />
+        </Route>
+        <Route path="/blogs/:id">
+          <Blog />
+        </Route>
         <Route path="/users">
           <UsersList />
-        </Route>
-
-        <Route path="/blogs/:id">
-          <User />
         </Route>
         <Route path="/blogs">
           {userInfo !== null && (

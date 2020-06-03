@@ -1,8 +1,6 @@
 import React from 'react';
 
-const Input = ({
-  text, type, name, handleChange, value, id,
-}) => (
+const Input = ({ text, type, name, handleChange, value, id }) => (
   <div>
     {text}
     :
