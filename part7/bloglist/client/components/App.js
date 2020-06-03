@@ -9,12 +9,15 @@ import './App.css';
 import BlogList from 'Components/BlogList';
 import { initializeBlogs } from 'Reducers/blogReducer';
 import { logged } from 'Reducers/logReducer';
+import UsersList from 'Components/UsersList';
+import { initializeUsers } from 'Reducers/usersReducer';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, [dispatch]);
 
   useEffect(() => {
@@ -33,6 +36,7 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification />
       <LoginForm />
+      <UsersList />
       {userInfo !== null && (
         <Togglable text="create new blog">
           <BlogForm />

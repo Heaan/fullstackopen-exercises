@@ -14,6 +14,6 @@ router.delete('/blogs/:id', blogs.destroy);
 router.post('/login', login.login);
 
 router.get('/users', users.getAll);
-router.post('/users', users.create);
+// router.post('/users', users.create);
 
 module.exports = router;
