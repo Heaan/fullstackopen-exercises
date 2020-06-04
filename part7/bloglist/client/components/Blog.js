@@ -29,6 +29,14 @@ const Blog = () => {
         <Button type="button" text="like" handleClick={handleLike} />
       </div>
       <div>added by {blog.user.name}</div>
+      <div>
+        <h3>comments</h3>
+        <ul>
+          {[].map((items) => (
+            <li key={items.id}>{items.content}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

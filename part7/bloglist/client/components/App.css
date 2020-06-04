@@ -34,3 +34,8 @@
   border-radius: 5px;
   border: solid red;
 }
+
+.nav {
+  padding: 5px;
+  background-color: silver;
+}
