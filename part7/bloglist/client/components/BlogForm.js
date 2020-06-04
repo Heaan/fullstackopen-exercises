@@ -22,10 +22,18 @@ const BlogForm = () => {
     <div>
       <h2>Create new</h2>
       <form onSubmit={addNew}>
-        <Input id="title" text="title" type="text" name="title" />
-        <Input id="author" text="author" type="text" name="author" />
-        <Input id="url" text="url" type="text" name="url" />
-        <Button id="create" type="submit" text="create" />
+        <div>
+          <Input id="title" text="title:" type="text" name="title" />
+        </div>
+        <div>
+          <Input id="author" text="author:" type="text" name="author" />
+        </div>
+        <div>
+          <Input id="url" text="url:" type="text" name="url" />
+        </div>
+        <div>
+          <Button id="create" type="submit" text="create" />
+        </div>
       </form>
     </div>
   );

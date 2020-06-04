@@ -20,9 +20,15 @@ const LoginForm = () => {
     <div>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
-        <Input id="username" text="username" type="text" name="username" />
-        <Input id="password" text="password" type="password" name="password" />
-        <Button id="login" type="submit" text="login" />
+        <div>
+          <Input id="username" text="username:" type="text" name="username" />
+        </div>
+        <div>
+          <Input id="password" text="password:" type="password" name="password" />
+        </div>
+        <div>
+          <Button id="login" type="submit" text="login" />
+        </div>
       </form>
     </div>
   );

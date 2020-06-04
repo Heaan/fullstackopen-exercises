@@ -6,6 +6,7 @@ const commentSchema = mongoose.Schema({
   content: {
     type: String,
     required: true,
+    minlength: 12,
   },
   date: {
     type: Date,

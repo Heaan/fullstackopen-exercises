@@ -2,9 +2,15 @@ import axios from 'axios';
 
 const setUrl = (id) => `/api/blogs/${id}/comments`;
 
-const getAllIn = async (blogId) => {
-  const res = await axios.get(setUrl(blogId));
+const getAllIn = async (blog) => {
+  const res = await axios.get(setUrl(blog));
   return res.data;
 };
 
-export default { getAllIn };
+const create = async (comment) => {
+  const { blog } = comment;
+  const res = await axios.post(setUrl(blog), comment);
+  return res.data;
+};
+
+export default { getAllIn, create };

@@ -18,6 +18,6 @@ router.post('/blogs/:id/comments', comments.create);
 router.post('/login', login.login);
 
 router.get('/users', users.getAll);
-// router.post('/users', users.create);
+router.post('/users', users.create);
 
 module.exports = router;

@@ -5,6 +5,7 @@ import { like } from 'Reducers/blogReducer';
 import { useParams } from 'react-router-dom';
 import { fetchComments } from 'Reducers/commentReducer';
 import Comments from 'Components/Comments';
+import CommentForm from './commentForm';
 
 const Blog = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,11 @@ const Blog = () => {
         <Button type="button" text="like" handleClick={handleLike} />
       </div>
       <div>added by {blog.user.name}</div>
-      <Comments />
+      <div>
+        <h3>comments</h3>
+        <CommentForm blog={id} />
+        <Comments />
+      </div>
     </div>
   );
 };
