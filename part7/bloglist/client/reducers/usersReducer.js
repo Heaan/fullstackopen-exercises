@@ -10,11 +10,11 @@ export const initializeUsers = () => async (dispatch) => {
 
 const reducer = (state = [], { type, data }) => {
   switch (type) {
-    case 'INIT_USERS':
-      return data;
+  case 'INIT_USERS':
+    return data;
 
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 

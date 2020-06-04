@@ -50,20 +50,20 @@ export const remove = (id) => async (dispatch) => {
 
 const reducer = (state = [], { type, data }) => {
   switch (type) {
-    case 'INIT_BLOGS':
-      return data.map((item) => item);
-    case 'NEW_BLOG':
-      return [...state, data];
-    case 'LIKE_BLOG': {
-      const { id } = data;
-      return state.map((item) => (item.id === id ? data : item));
-    }
-    case 'REMOVE_BLOG': {
-      const { id } = data;
-      return state.filter((item) => item.id !== id);
-    }
-    default:
-      return state;
+  case 'INIT_BLOGS':
+    return data.map((item) => item);
+  case 'NEW_BLOG':
+    return [...state, data];
+  case 'LIKE_BLOG': {
+    const { id } = data;
+    return state.map((item) => (item.id === id ? data : item));
+  }
+  case 'REMOVE_BLOG': {
+    const { id } = data;
+    return state.filter((item) => item.id !== id);
+  }
+  default:
+    return state;
   }
 };
 

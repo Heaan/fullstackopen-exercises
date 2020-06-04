@@ -19,6 +19,9 @@ module.exports = (env, argv) => {
         '@root': path.resolve(__dirname),
       },
     },
+    output: {
+      publicPath: '/',
+    },
     devServer: {
       contentBase: path.resolve(__dirname, './client/build'),
       compress: true,

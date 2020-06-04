@@ -14,14 +14,14 @@ export const success = (message) => ({
 
 const reducer = (state = null, { type, data }) => {
   switch (type) {
-    case 'RESET':
-      return null;
-    case 'ERROR':
-      return data;
-    case 'SUCCESS':
-      return data;
-    default:
-      return state;
+  case 'RESET':
+    return null;
+  case 'ERROR':
+    return data;
+  case 'SUCCESS':
+    return data;
+  default:
+    return state;
   }
 };
 

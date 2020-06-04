@@ -10,7 +10,6 @@ import BlogList from 'Components/BlogList';
 import { initializeBlogs } from 'Reducers/blogReducer';
 import { logged } from 'Reducers/logReducer';
 import UsersList from 'Components/UsersList';
-import { initializeUsers } from 'Reducers/usersReducer';
 import { BrowserRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom';
 import User from 'Components/User';
 import Blog from './Blog';
@@ -23,7 +22,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs());
-    dispatch(initializeUsers());
   }, [dispatch]);
 
   useEffect(() => {

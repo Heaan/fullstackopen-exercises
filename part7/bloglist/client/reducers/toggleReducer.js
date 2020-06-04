@@ -5,11 +5,11 @@ export const toggleTo = (data) => ({
 
 const reducer = (state = false, { type, data }) => {
   switch (type) {
-    case 'TOGGLE':
-      return data;
+  case 'TOGGLE':
+    return data;
 
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 

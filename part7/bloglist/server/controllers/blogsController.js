@@ -12,7 +12,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
   const { id } = req.params;
 
-  const blog = await Blog.findById(id).populate('user', { username: 1, name: 1 });
+  const blog = await Blog.findById(id).populate('comments', { content: 1 });
   if (blog) {
     res.json(blog.toJSON());
   } else {

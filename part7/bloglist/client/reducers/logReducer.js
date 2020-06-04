@@ -34,14 +34,14 @@ export const logged = (user) => ({
 
 const reducer = (state = null, { type, data }) => {
   switch (type) {
-    case 'LOGIN':
-      return data;
-    case 'LOGOUT':
-      return null;
-    case 'LOGGED':
-      return data;
-    default:
-      return state;
+  case 'LOGIN':
+    return data;
+  case 'LOGOUT':
+    return null;
+  case 'LOGGED':
+    return data;
+  default:
+    return state;
   }
 };
 
