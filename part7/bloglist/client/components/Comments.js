@@ -1,15 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { CardContent, Card } from '@material-ui/core';
+import FaceIcon from '@material-ui/icons/Face';
 
 const Comments = () => {
   const comments = useSelector((state) => state.comments);
 
   return (
-    <ul>
+    <div>
       {comments.map((items) => (
-        <li key={items.id}>{items.content}</li>
+        <Card style={{ maxWidth: 600, margin: 10 }} variant="outlined" key={items.id}>
+          <FaceIcon style={{ margin: 5 }} />
+          <CardContent>{items.content}</CardContent>
+        </Card>
       ))}
-    </ul>
+    </div>
   );
 };
 

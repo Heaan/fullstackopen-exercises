@@ -1,8 +1,8 @@
 import React from 'react';
-import Input from './Input';
-import Button from './Button';
 import { useDispatch } from 'react-redux';
 import { createComment } from 'Reducers/commentReducer';
+import { TextField, Button } from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
 
 const CommentForm = ({ blog }) => {
   const dispatch = useDispatch();
@@ -15,9 +15,28 @@ const CommentForm = ({ blog }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Input type="text" name="content" />
-      <Button type="submit" text="add comment" />
+    <form style={{ maxWidth: 600, margin: 10 }} onSubmit={handleSubmit}>
+      <TextField
+        fullWidth
+        type="text"
+        name="content"
+        id="content"
+        label="Comment"
+        multiline
+        rows={4}
+        variant="outlined"
+      />
+      <div>
+        <Button
+          style={{ margin: 10, marginLeft: 500 }}
+          type="submit"
+          variant="contained"
+          color="primary"
+          endIcon={<SendIcon />}
+        >
+          Send
+        </Button>
+      </div>
     </form>
   );
 };

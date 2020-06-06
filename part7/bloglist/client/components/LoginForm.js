@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
-import Input from 'Components/Input';
-import Button from 'Components/Button';
 import { login } from 'Reducers/logReducer';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -17,20 +27,45 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>Log in to application</h2>
+    <Container component="main" maxWidth="xs">
+      <h2>
+        <PermIdentityIcon style={{ position: 'relative', top: 8 }} fontSize="large" />
+        <span>Log in to application</span>
+      </h2>
       <form onSubmit={handleLogin}>
-        <div>
-          <Input id="username" text="username:" type="text" name="username" />
-        </div>
-        <div>
-          <Input id="password" text="password:" type="password" name="password" />
-        </div>
-        <div>
-          <Button id="login" type="submit" text="login" />
+        <FormControl fullWidth variant="outlined" style={{ margin: 5 }}>
+          <InputLabel htmlFor="username">Username</InputLabel>
+          <OutlinedInput id="username" name="username" labelWidth={70} />
+        </FormControl>
+
+        <FormControl fullWidth variant="outlined" style={{ margin: 5 }}>
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <OutlinedInput
+            id="password"
+            type={visible ? 'text' : 'password'}
+            name="password"
+            labelWidth={70}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setVisible(!visible)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  edge="end"
+                >
+                  {visible ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <div style={{ float: 'right' }}>
+          <Button id="login" type="submit" variant="contained" color="primary">
+            login
+          </Button>
         </div>
       </form>
-    </div>
+    </Container>
   );
 };
 

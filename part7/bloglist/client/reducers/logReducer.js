@@ -11,7 +11,7 @@ export const login = (user) => async (dispatch) => {
       type: 'LOGIN',
       data,
     });
-    dispatch(success(`success: welcome ${user.name}`));
+    dispatch(success(`success: welcome ${data.name}`));
     setTimeout(() => {
       dispatch(reset());
     }, 5000);
@@ -34,14 +34,14 @@ export const logged = (user) => ({
 
 const reducer = (state = null, { type, data }) => {
   switch (type) {
-  case 'LOGIN':
-    return data;
-  case 'LOGOUT':
-    return null;
-  case 'LOGGED':
-    return data;
-  default:
-    return state;
+    case 'LOGIN':
+      return data;
+    case 'LOGOUT':
+      return null;
+    case 'LOGGED':
+      return data;
+    default:
+      return state;
   }
 };
 
